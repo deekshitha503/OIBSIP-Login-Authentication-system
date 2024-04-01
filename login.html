@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login Authentication System</title>
+<style>
+    form {
+        margin: 0 auto;
+        width: 300px;
+        text-align: center;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin-top: 120px;
+        padding: 0;
+        height: 100vh;
+        background-image: url("https://media.istockphoto.com/id/1170825611/photo/blue-and-green-blurred-motion-abstract-background.jpg?s=612x612&w=0&k=20&c=8P6LAut-_6kBEDHCsKQQzDosj_uFtKQe863YTdFCS_0=");
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+    }
+    
+    h2 {
+        text-align: center;
+    }
+    .container {
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        width: 300px;
+        margin-left: 12cm;
+    }
+
+    input {
+        margin-bottom: 10px;
+        width: calc(100% - 20px);
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    button {
+        width: calc(100% - 20px);
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4caf50;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #45a049;
+        scale: 0.95;
+    }
+
+    #securedPage {
+        text-align: center;
+    }
+
+    #securedPage button {
+        margin-top: 20px;
+    }
+
+    #securedPage button:hover {
+        background-color: #c62828;
+    }
+
+    p {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    a {
+        color: #4caf50;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+    <div class="container">
+
+        <h2>Login Authentication System</h2><br>
+        <div class="loginForm">
+            <div id="loginForm">
+                <form id="login">
+        <input type="text" id="username" placeholder="Username" required><br>
+        <input type="password" id="password" placeholder="Password" required><br>
+        <button type="submit">Login</button>
+    </form>
+    <p>Don't have an account? <a href="#" id="registerLink">Register</a></p>
+</div>
+
+<div id="registerForm" style="display: none;">
+    <form id="register">
+        <input type="text" id="newUsername" placeholder="New Username" required><br>
+        <input type="password" id="newPassword" placeholder="New Password" required><br>
+        <button type="submit">Register</button>
+    </form>
+    <p>Already have an account? <a href="#" id="loginLink">Login</a></p>
+</div>
+
+<div id="securedPage" style="display: none;">
+    <h2>Welcome to the secured page!</h2>
+    <button onclick="logout()">Logout</button>
+</div>
+</div>
+</div>
+<script>
+    const users = [
+        { username: "user1", password: "password1" },
+        { username: "user2", password: "password2" }
+    ];
+    document.getElementById("login").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        
+        const user = users.find(user => user.username === username && user.password === password);
+        if (user) {
+            showSecuredPage();
+        } else {
+            alert("Invalid username or password");
+        }
+    });
+
+    document.getElementById("register").addEventListener("submit", function(event) {
+        event.preventDefault();
+        const newUsername = document.getElementById("newUsername").value;
+        const newPassword = document.getElementById("newPassword").value;
+
+        if (users.some(user => user.username === newUsername)) {
+            alert("Username already exists. Please choose a different one.");
+        } else {
+            users.push({ username: newUsername, password: newPassword });
+            alert("Registration successful! You can now login with your new account.");
+            showLoginForm();
+        }
+    });
+
+    document.getElementById("registerLink").addEventListener("click", function(event) {
+        event.preventDefault();
+        showRegisterForm();
+    });
+
+    document.getElementById("loginLink").addEventListener("click", function(event) {
+        event.preventDefault();
+        showLoginForm();
+    });
+
+    function showSecuredPage() {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("securedPage").style.display = "block";
+    }
+
+    function showLoginForm() {
+        document.getElementById("loginForm").style.display = "block";
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("securedPage").style.display = "none";
+    }
+
+    function showRegisterForm() {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "block";
+        document.getElementById("securedPage").style.display = "none";
+    }
+
+    function logout() {
+        showLoginForm();
+    }
+</script>
+</body>
+</html>
